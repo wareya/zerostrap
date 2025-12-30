@@ -8,6 +8,8 @@ As proof of usefulness, I wrote a **real, working text editor** in zerostrap tha
 
 If there isn't enough built-in behavior in the current version, being under 370 bytes gives plenty of room for people to add more functionality without hitting the end of the boot sector. The goal isn't "smallest", it's "most powerful" (without becoming hard to 100% understand at the instruction level).
 
+Zerostrap is written in C with lots of inline assembly. This makes it slightly easier to modify than things this size that are written in *literally just* assembly, because the control flow and most of the logic is normal C code.
+
 ```R
     getch y<- # Get a character, write it into variable y. y<- is a macro/function, not an intrinsic feature. so is y, etc.
     
