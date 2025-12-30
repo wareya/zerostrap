@@ -1,5 +1,9 @@
 # Zerostrap
 
+A boot sector programming language that you can actually use
+
+## About
+
 Zerostrap is a bare-metal-capable programming language meant for bootstrapping (e.g. compiler toolchains) from a trusted root. It comes in **370 or fewer bytes** of machine code, making it genuinely auditable, but it's still powerful enough to actually use despite being so small.
 
 The x86 version runs in 32-bit protected mode and gives you full access to all 32-bit memory, and also the i8042 (PS/2 or USB) keyboard input interrupt. This isn't sleight of hand, either: fitting into 370 bytes *includes the x86 16-bit to 32-bit mode bootstrap and startup-time interpreted program input*; the interpreter itself is somewhere around 270 bytes.
@@ -60,6 +64,8 @@ To compile, run either of the following:
 `clang -fomit-frame-pointer -target i386-unknown-none -m32 -g -Wall -Wextra -Oz -c main_x86_concat.c && objdump -r -d -M intel main_x86_concat.o|sed $'s~$~\e[0m~g'`
 
 Then follow the rest of the instructions in the corresponding C file.
+
+The current implementation is limited to about 2^15 bytes of program text, but this isn't a fundamental limitation of the interpreter. Rather, it's a limitation from saving (a lot of) space in the 16 to 32 bit boot process.
 
 ## Design
 
