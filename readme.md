@@ -10,6 +10,8 @@ The x86 version runs in 32-bit protected mode and gives you full access to all 3
 
 As proof of usefulness, I wrote a **real, working text editor** in zerostrap that should be *mostly* readable to low-level C programmers, in `demo_text_editor.zs`. The syntax is very different, and there's a wall of pseudo-stdlib stuff at the top, but once you get to where functions are defined, the line-by-line structure is surprisingly close to C, with extra boilerplate. It also runs fast enough on realistic hardware emulation that it's viable for nontrivial software, unlike some other bootloader-sized languages where you have to construct basic things like numeric literals out of expensive stack-address-manipulation macros.
 
+https://github.com/user-attachments/assets/94afca9e-b21b-4bb5-90fb-604752ed7557
+
 If there isn't enough built-in behavior in the current version, being under 370 bytes gives plenty of room for people to add more functionality without hitting the end of the boot sector. The goal isn't "smallest", it's "most powerful" (without becoming hard to 100% understand at the instruction level).
 
 Zerostrap is written in C with lots of inline assembly. This makes it slightly easier to modify than things this size that are written in *literally just* assembly, because the control flow and most of the logic is normal C code.
@@ -103,6 +105,8 @@ Functions aren't stack-hygienic, so they can change the height of the stack, whi
 The goal, which I think I succeeded at, is to make it possible to jump straight from machine code to something high level enough to write genuinely complex software in, in a single language implementation. Rather than in three or four language implementations.
 
 I think I succeeded: I wrote an **entire text editor** in zerostrap. Complete with line and character insertion and deletion, full-screen display, line numbers, a status bar, etc. It even has a memory allocator. It's janky, but the code is *mostly* readable to programmers that are familiar with low-level C; it's structured weirdly, but a lot of the same idioms apply, unlike with Forths or Lisps. I even have memcpy and memcpy functions.
+
+https://github.com/user-attachments/assets/329401e3-1f9c-498d-8f88-6dad322f0e65
 
 The language has enough basic features (e.g. multiplication, division) that it isn't horrendously slow to do basic operations, so you can actually write real software with it if you're compelled to, instead of getting walled by "oops, deciding on the memory values for writing this decimal number's digits to the screen should take like 2 seconds to run, but instead it takes 30 minutes". You don't have to implement basic math in terms of bit fiddling or stack manipulation like you do in most bootloader-level Forths.
 
