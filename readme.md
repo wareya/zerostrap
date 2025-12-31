@@ -106,7 +106,7 @@ Functions aren't stack-hygienic, so they can change the height of the stack, whi
 
 The goal, which I think I succeeded at, is to make it possible to jump straight from machine code to something high level enough to write genuinely complex software in, in a single language implementation. Rather than in three or four language implementations.
 
-I think I succeeded: I wrote an **entire text editor** in zerostrap. Complete with line and character insertion and deletion, full-screen display, line numbers, a status bar, etc. It even has a memory allocator. It's janky, but the code is *mostly* readable to programmers that are familiar with low-level C; it's structured weirdly, but a lot of the same idioms apply, unlike with Forths or Lisps. I even have memcpy and memcpy functions.
+I think I succeeded: I wrote an **entire text editor** in zerostrap. Complete with line and character insertion and deletion, full-screen display, line numbers, a status bar, etc. It even has a memory allocator. It's janky, but the code is *mostly* readable to programmers that are familiar with low-level C; it's structured weirdly, but a lot of the same idioms apply, unlike with Forths or Lisps. I even have memcpy and memmove functions.
 
 https://github.com/user-attachments/assets/329401e3-1f9c-498d-8f88-6dad322f0e65
 
