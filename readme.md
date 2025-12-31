@@ -1,6 +1,6 @@
 # Zerostrap
 
-A boot sector programming language that you can actually use
+A boot sector programming language that you can Actually Use.
 
 ## About
 
@@ -54,6 +54,10 @@ Zerostrap is written in C with lots of inline assembly. This makes it slightly e
         620 1? # go to head of an outer loop (not shown in this snippet)
     #601
 ```
+
+There's also a VGA mode 13h example mandelbrot generator:
+
+<img width="642" height="457" alt="PaintDotNet_2025-12-31_03-46-58" src="https://github.com/user-attachments/assets/fdbb740e-d2be-40a4-9d3c-781ac11bf059" />
 
 ## Usage
 
