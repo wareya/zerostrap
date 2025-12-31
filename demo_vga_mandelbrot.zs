@@ -1,24 +1,34 @@
+
 # ----
 # language bootstrap macros
 # ----
 
-#r 0 98304@-@-@r;
+# Sigil-less versions of primitives.
+# The 9000...9999 memory region is reserved for bootstrap macros.
+# Reading/writing has a 98304 byte offset to make it hard to accidentally trash the interpreter.
+
+#r 0 98304@-@-@r; # TRANSLATIONM: read(<implicit> - (0 - 98304))
 #w 0 98304@-@-@w;
 #- @-;
 #& @&;
 #, @,;
 #/ @/;
 #* @*;
+
+# "Missing" features.
+
 #dup 9000@w 9000@r 9000@r;
 #dup2 9004@w 9000@w 9000@r 9004@r 9000@r 9004@r;
-#SW 9000@w 9004@w 9000@r 9004@r;
-#+ 0 SW - - ;
-
+#SW 9000@w 9004@w 9000@r 9004@r; # swap
+#+ 9000@w 0 9000@r @-@-;
 #rem 9014@w 9010@w 9010@r 9014@r / 9014@r * 9010@r SW - ;
 #% rem 9014@r + 9014@r rem ;
 
-# *(int*)0 = INT_MIN
-2048 2048 512 * * 9100@w
+# *(int*)9100 = INT_MIN
+2147483648 9100@w
+# *(int*)9104 = 0xFFFFFF00
+4294967040 9104@w
+
 
 #nez 34SW ?0;#34 1;
 #ltz 30SW 9100@r@&?0;#30 1;
@@ -30,8 +40,8 @@
 #== @- nez _not ;
 #!= @- nez ;
 
-#w8 9160@w 9164@w 9160@r 1+ r 9165@w 9164@r 9160@r w ;
-#r8 r 255 & ;
+#w8 9160@w 9164@w 9160@r 0 1 @- @- r 9165@w 9164@r 9160@r w ;
+#r8 @r255@&;
 
 #px 100@r;
 #px<- 100@w;
