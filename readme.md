@@ -112,6 +112,42 @@ The language has enough basic features (e.g. multiplication, division) that it i
 
 As implemented, zerostrap is meant for x86 (i686) CPUs, but it should be straightforward to implement on literally anything. It really doesn't need much. I wrote a high-level emulator (`zs_emu2.c`) that also functions as a reference interpreter that doesn't depend on inline assembly. It emulates the i686 boot-mode environment that the main implementations in `main_x86_concat.c` etc. expect, including VGA and text input. It's where I wrote most of the example text editor.
 
+# Tutorial
+
+```R
+# |-----
+# | Minitutorial
+# |
+# | Zerostrap is a concatenative stack-based language. Expressions are written in reverse polish notation:
+5 5 @* # push 5, push 5, pop two stack items and feed them to @* and push the result
+# | stack is now [25]
+9000 @w # push 9000, pop as address, pop as value, *(address) = value (32-bit integer)
+# | memory bytes 9000, 9001, 9002, and 9003 just got written to.
+# | 9000 contains 25, the others contain 0. Memory accesses are little-endian.
+# | 
+# | Let's define and use a function, called asdf. ; is the end-of-function character.
+# | Functions look like comments. If it's not a function (or label), always add a space after the # character of your comments!
+#asdf 9000 @r ;
+# | Now the function asdf exists, which reads the 32-bit integer at 9000 and pushes it to the stack.
+asdf asdf @* 
+# | Er, hmm. We forgot to write a writing macro. Our stack contains [125] now, so...
+#asdf<- 9000 @w ;
+asdf<-
+# | OK, now we wrote 125 back to where asdf is.
+# | By the way, take note that functions do not need to leave the stack at the same level. They're like macros in that way.
+# | (The source code for zerostrap calls them macros and functions interchangeably.)
+# | Functions are space-sensitive. Their uses must be followed by a space/tab/newline/etc.
+# | Primitives (@-  @*  @/  @&  @,  @r  ?  ;) and numbers are not space-sensitive.
+# |
+# | Let's do some control flow now.
+# | Control flow uses the ? operator, which pops as test value, pops as label value, and jumps to label value if test value is nonzero.
+555555 asdf ?
+# SKIPPED
+#555555
+# | OK, now you know everything you need to know to write zerostrap code. Have fun!
+# |-----
+```
+
 ## Full disassembly of the "input" version, annotated
 
 ```as
