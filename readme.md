@@ -61,15 +61,9 @@ QEMU/Bochs: Run `disk32_concat.bin` (autoload text editor) or `disk32_input.bin`
 
 x86 hardware: Same as above, but on a floppy disk.
 
-To compile, run either of the following:
+To compile, follow the rest of the instructions in the main C files.
 
-`clang -fomit-frame-pointer -target i386-unknown-none -m32 -g -Wall -Wextra -Oz -c main_x86_input.c && objdump -r -d -M intel main_x86_input.o|sed $'s~$~\e[0m~g'`
-
-`clang -fomit-frame-pointer -target i386-unknown-none -m32 -g -Wall -Wextra -Oz -c main_x86_concat.c && objdump -r -d -M intel main_x86_concat.o|sed $'s~$~\e[0m~g'`
-
-Then follow the rest of the instructions in the corresponding C file.
-
-The current implementation is limited to about 2^15 bytes of program text, but this isn't a fundamental limitation of the interpreter. Rather, it's a limitation from saving (a lot of) space in the 16 to 32 bit boot process.
+The current implementation is limited to about 2^15 bytes of program text, but this isn't a fundamental limitation of the interpreter. Rather, it's a limitation from saving space in the 16 to 32 bit boot process. If you need more space, make the pointer that ends up containing 0x10010 contain a larger value, so that the source text doesn't crash into it.
 
 ## Design
 
