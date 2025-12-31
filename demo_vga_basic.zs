@@ -20,7 +20,7 @@ asdf<-
 # | By the way, take note that functions do not need to leave the stack at the same level. They're like macros in that way.
 # | (The source code for zerostrap calls them macros and functions interchangeably.)
 # | Functions are space-sensitive. Their uses must be followed by a space/tab/newline/etc.
-# | Primitives (@-  @*  @/  @&  @,  @r  ?  ;) and numbers are not space-sensitive.
+# | Primitives (@-  @*  @/  @&  @,  @r  @w  ?  ;) and numbers are not space-sensitive.
 # |
 # | Let's do some control flow now.
 # | Control flow uses the ? operator, which pops as test value, pops as label value, and jumps to label value if test value is nonzero.
