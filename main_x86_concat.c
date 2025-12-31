@@ -1,8 +1,16 @@
 
-// $ clang -fomit-frame-pointer -target i386-unknown-none -m32 -g -Wall -Wextra -Oz -c main_x86_concat.c && objdump -r -d -M intel main_x86_concat.o|sed $'s~$~\e[0m~g'
-// Then open main_x86_concat.o in a hex editor and manually locate the produced machine code (starts with B8 01 24 CD 15, ends with 72 F2 66 C3) and copy it over the start of disk32_concat.bin
-// Then:
-// dd if=demo_text_editor.zs oflag=seek_bytes seek=520 of=disk32_concat.bin & qemu-system-i386 disk32_concat.bin
+// $ clang --version
+// clang version 21.1.1 # in case something breaks in the future, this is the version I'm using
+/*
+    clang -fomit-frame-pointer -target i386-unknown-none -m32 -Wall -Wextra -Oz -c main_x86_concat.c
+    objdump -r -d -M intel main_x86_concat.o|sed $'s~$~\e[0m~g' # sanity check
+    objcopy -O binary --only-section=.text.interpret_body main_x86_concat.o temp.bin
+    dd if=temp.bin of=disk32_concat.bin
+    printf '\x55\xAA' | dd of=disk32_concat.bin bs=1 seek=510 conv=notrunc
+    rm temp.bin
+    dd if=demo_text_editor.zs oflag=seek_bytes seek=520 of=disk32_concat.bin
+    qemu-system-i386 disk32_concat.bin
+*/
 
 #define HELPER_USERABI inline __attribute__((always_inline))
 #define ROOT_USERABI __attribute__((noinline))
@@ -37,6 +45,8 @@ unsigned int zs_getc(void) {
 #define INTERPRETER_PRELUDE \
 void interpret() \
 { \
+    asm volatile (".section .text.interpret_body"); \
+    asm volatile ("_boot_start:"); \
     register char * source asm("ebx"); \
     register char ** macros asm("edi"); \
     asm volatile( \

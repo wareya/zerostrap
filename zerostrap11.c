@@ -105,13 +105,8 @@
         #define PRESNONE __attribute__((preserve_none))
         #define PRESALL __attribute__((preserve_all))
     #endif
-#elif _X86_
-    #define PRESNONE __attribute__((fastcall))
-    #ifndef PRESALL
-        #define PRESALL __attribute__((fastcall))
-    #endif
 #else
-    #define PRESNONE
+    #define PRESNONE __attribute__((cdecl))
     #define PRESALL
 #endif
 
@@ -587,6 +582,7 @@ INTERPRETER_PRELUDE
 __attribute__((naked, noinline, unused))
 void __readint(void)
 {
+    asm volatile (".section .text.interpret_body");
     asm volatile(
         "_readint:\n"
         ".code32\n"
