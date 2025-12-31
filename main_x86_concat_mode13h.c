@@ -9,7 +9,7 @@
     dd if=temp.bin of=disk32_concat_mode13h.bin
     printf '\x55\xAA' | dd of=disk32_concat_mode13h.bin bs=1 seek=510 conv=notrunc
     rm temp.bin
-    dd if=demo_vga_noise.zs oflag=seek_bytes seek=520 of=disk32_concat_mode13h.bin & qemu-system-i386 disk32_concat_mode13h.bin
+    dd if=demo_vga_mandelbrot.zs oflag=seek_bytes seek=520 of=disk32_concat_mode13h.bin & qemu-system-i386 disk32_concat_mode13h.bin
 */
 
 #define HELPER_USERABI inline __attribute__((always_inline))

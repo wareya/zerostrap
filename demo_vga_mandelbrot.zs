@@ -41,42 +41,42 @@
 7 .COLOR<-
 4 1? # skip over definitions
 #.
-    655360 100r + w8
-    # 7: light grey. 15: white. 8: dark grey. others: various.
-    #.COLOR 40r ;
-    #.COLOR<- 40w ;
-    .COLOR 655361 100r + w8
-    100r 2 + 100w
+  655360 100r + w8
+  # 7: light grey. 15: white. 8: dark grey. others: various.
+  #.COLOR 40r ;
+  #.COLOR<- 40w ;
+  .COLOR 655361 100r + w8
+  100r 2 + 100w
 ;
 #memcpy4
-    4w 84w 80w
-    33 4r 0 == ?
-    #31
-    84r r 80r w   84r 4 + 84w   80r 4 + 80w   4r 1 - 4w   31 4r ?
-    #33
+  4w 84w 80w
+  33 4r 0 == ?
+  #31
+  84r r 80r w   84r 4 + 84w   80r 4 + 80w   4r 1 - 4w   31 4r ?
+  #33
 ;
 #memcpy
-    4w 84w 80w
-    43 4r 0 == ?
-    #41
-    84r r 80r w8   84r 1 + 84w   80r 1 + 80w   4r 1 - 4w   41 4r ?
-    #43
+  4w 84w 80w
+  43 4r 0 == ?
+  #41
+  84r r 80r w8   84r 1 + 84w   80r 1 + 80w   4r 1 - 4w   41 4r ?
+  #43
 ;
 #memcpy_rev
-    4w 4r + 84w 4r +  80w
-    53 4r 0 == ?
-    #51
-    84r 1 - 84w   80r 1 - 80w   84r r 80r w8   4r 1 - 4w   51 4r ?
-    #53
+  4w 4r + 84w 4r +  80w
+  53 4r 0 == ?
+  #51
+  84r 1 - 84w   80r 1 - 80w   84r r 80r w8   4r 1 - 4w   51 4r ?
+  #53
 ;
 #memmove
-    4w 80w 84w
-    64 84r 80r < ?
-        84r 80r 4r memcpy_rev
-    65 1?
-    #64
-        84r 80r 4r memcpy
-    #65
+  4w 80w 84w
+  64 84r 80r < ?
+    84r 80r 4r memcpy_rev
+  65 1?
+  #64
+    84r 80r 4r memcpy
+  #65
 ;
 #4
 #.cptr 100r 655360 + ;
@@ -178,50 +178,99 @@
 401 1?
 # shift is 54 or 42. caps lock is 58 (not handled)
 #getch
-    4 su
-    #500
-        , x<-
-    500  x 256 & 0 == ? # not ready yet
-    x 255 & x<-
-    # x log<-
-    503  x 224 != ? # input modifier 0xE0. note, then wait for next.
-        mod 1 + mod<-
-        500 1?
-    #503
-    501  x 54 !=  x 42 !=  & ? # shift press
-        1 shift<-
-        500 1?
-    #501
-    502  x 128- 54 !=  x 128- 42 !=  & ? # shift release
-        0 shift<-
-        500 1?
-    #502
-    505  x 128 < ? # other release
-        0 mod<-
-        500 1?
-    #505
-    504  mod 0 == ? # 0xE0-modified input
-        x 128 + x<-
-        mod 1 - mod<-
-    #504
-    x 255 & 2 * shift + 2100 + r 255 &
-    4 sd
+  4 su
+  #500
+    , x<-
+  500  x 256 & 0 == ? # not ready yet
+  x 255 & x<-
+  # x log<-
+  503  x 224 != ? # input modifier 0xE0. note, then wait for next.
+    mod 1 + mod<-
+    500 1?
+  #503
+  501  x 54 !=  x 42 !=  & ? # shift press
+    1 shift<-
+    500 1?
+  #501
+  502  x 128- 54 !=  x 128- 42 !=  & ? # shift release
+    0 shift<-
+    500 1?
+  #502
+  505  x 128 < ? # other release
+    0 mod<-
+    500 1?
+  #505
+  504  mod 0 == ? # 0xE0-modified input
+    x 128 + x<-
+    mod 1 - mod<-
+  #504
+  x 255 & 2 * shift + 2100 + r 255 &
+  4 sd
 ;
 #401
 
 100 su
 
-#X   100@r;
-#X<- 100@w;
-#Y   104@r;
-#Y<- 104@w;
+#px   100@r;
+#px<- 100@w;
+#py   104@r;
+#py<- 104@w;
+#cr   110@r;
+#cr<- 110@w;
+#ci   114@r;
+#ci<- 114@w;
+#zr   120@r;
+#zr<- 120@w;
+#zi   124@r;
+#zi<- 124@w;
+#i   134@r;
+#i<- 134@w;
 
-0 Y<-
+# Mandelbrot Set Generator
 
-#50
-    X 1+ 99* X<-
-    Y 4+ 64000% Y<-
-    X 3/ 557056 Y + w
-50 1?
+#zoom 200@r;
+#zoom<- 200@w;
+
+0 zoom<-
+
+#99
+  199 py<-
+  #110
+    319 px<-
+    #120
+      px 3000 * 320 / 10 zoom - * 10 / 2000 - cr<-
+      py 10 * 10 zoom - * 10 / 1000 - ci<-
+
+      0 zr<-
+      0 zi<-
+      16 i<-
+
+      #130
+        140    zr zr * zi zi * + 4000000 >    i 0 ==    |  ?
+
+        zr zr * 1000 / zi zi * 1000 / - cr +
+        2 zr * zi * 1000 / ci + zi<-
+        zr<-
+
+        i 1 - i<-
+      130 1?
+
+      #140
+        145 i 0 == ?
+        32 i - 15 +
+        146 1?
+      #145
+        0
+      #146
+        557056 py 320 * + px +
+      w8
+
+      px 1 - px<-
+    120 px 0 >= ?
+    py 1 - py<-
+  110 py 0 >= ?
+  
+  zoom 1 + 7 & zoom<-
+99 1?
 
 終
