@@ -57,7 +57,7 @@ Zerostrap is written in C with lots of inline assembly. This makes it slightly e
 
 There's also a VGA mode 13h example mandelbrot generator:
 
-<img width="642" height="457" alt="PaintDotNet_2025-12-31_03-46-58" src="https://github.com/user-attachments/assets/fdbb740e-d2be-40a4-9d3c-781ac11bf059" />
+https://github.com/user-attachments/assets/a0c2c151-a5ce-41ff-bb92-59cc552c82df
 
 ## Usage
 
