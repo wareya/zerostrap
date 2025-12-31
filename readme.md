@@ -4,7 +4,7 @@ A boot sector programming language that you can Actually Use.
 
 ## About
 
-Zerostrap is a bare-metal-capable programming language meant for bootstrapping (e.g. compiler toolchains, serial systems, bare metal data processing) from a trusted root. It comes in **370 or fewer bytes** of machine code, making it genuinely auditable, but it's still powerful enough to actually use despite being so small.
+Zerostrap is a bare-metal-capable programming language meant for bootstrapping (e.g. compiler toolchains, serial systems, bare metal data processing) from a trusted root. It comes in **370 or fewer bytes** of machine code, making it genuinely auditable, but it's still powerful enough to actually use despite being so small. Those 370 bytes are *with multiplication, division, function calls, etc* -- no "you can build mul out of sub so you don't need it" tricks.
 
 The x86 version runs in 32-bit protected mode and gives you full access to all 32-bit memory, and also the i8042 (PS/2 or USB) keyboard input interrupt. This isn't sleight of hand, either: fitting into 370 bytes *includes the x86 16-bit to 32-bit mode bootstrap and startup-time interpreted program input*; the interpreter itself is somewhere around 270 bytes.
 
